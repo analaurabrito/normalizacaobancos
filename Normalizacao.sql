@@ -36,18 +36,19 @@ sisbanco
 
 CREATE SCHEMA sisbanco AUTHORIZATION grupo2;
 
-/* Alterando o search_path do usuário eloisa para o schema hr */
+/* Alterando o search_path do usuário grupo2 para o schema sisbanco */
 
 ALTER USER grupo2 
     SET SEARCH_PATH TO sisbanco, grupo2, public;
 
+/* Criação das tabelas e inserção de seus respectivos comentários */
 
 CREATE TABLE sisbanco.clientes (
                 id_cliente INTEGER NOT NULL,
                 nome VARCHAR(25) NOT NULL,
                 data_nascimento DATE,
                 sexo CHAR(1) NOT NULL,
-                estado_civil VARCHAR(10) DEFAULT 'SOLTEIRO', 'CASADO', 'VIÚVO',
+                estado_civil VARCHAR(15),
                 CONSTRAINT id_cliente_pk PRIMARY KEY (id_cliente)
 );
 COMMENT ON TABLE sisbanco.clientes IS 'A tabela clientes armazena dados referentes aos clientes cadastrados no banco.';
@@ -342,6 +343,7 @@ COMMENT ON TABLE sisbanco.telefones_bancos IS 'A tabela telefones_bancos armazen
 COMMENT ON COLUMN sisbanco.telefones_bancos.cnpj IS 'É a Primary Key da tabela telefones_bancos, recebe também o nome de Foreign Key pois faz referência a tabela Bancos.';
 COMMENT ON COLUMN sisbanco.telefones_bancos.telefone IS 'Armazena os telefones para contato dos bancos.';
 
+/* Inserção das Foreign Keys nas tabelas criadas anteriormente */
 
 ALTER TABLE sisbanco.contas ADD CONSTRAINT clientes_contas_fk
 FOREIGN KEY (id_cliente)
@@ -489,3 +491,5 @@ REFERENCES sisbanco.empregados (id_empregado)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
+
+/* Fim do Script SQL. */
